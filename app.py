@@ -260,7 +260,8 @@ Customer: Okay, so should I contact you back in 3 days to get the digital tag ex
 Agent: Yes, feel free to check back in 3 days or watch your email dashboard for registration updates."""
 }
 
-# OpenAI Helper
+# OpenAI Helper (Cached Resource)
+@st.cache_resource
 def get_openai_client():
     api_key = None
     if "OPENAI_API_KEY" in st.secrets:
@@ -343,11 +344,12 @@ def generate_mock_analysis(transcript):
             "deep_dive": "Registration inquiries account for a significant portion of post-delivery care volume. The agent handled the core policy well but missed an opportunity to provide Texas-specific tracking metrics. Sebastian should integrate state-specific DMV API timelines into registration responses."
         }
 
-# Single Conversation Analysis
+# Single Conversation Analysis (Cached Data for 0ms re-runs)
+@st.cache_data(show_spinner=False, ttl=3600)
 def analyze_conversation(transcript):
     client = get_openai_client()
     if not client:
-        time.sleep(0.8)
+        time.sleep(0.3)
         return generate_mock_analysis(transcript)
     
     system_prompt = """You are an expert customer experience analyst working on Carvana's CARE platform. 
@@ -378,7 +380,8 @@ Return exactly this structure:
                 {"role": "system", "content": system_prompt},
                 {"role": "user", "content": f"Transcript:\n{transcript}"}
             ],
-            temperature=0.2
+            temperature=0.2,
+            max_tokens=650
         )
         cleaned_content = clean_json_string(response.choices[0].message.content)
         return json.loads(cleaned_content)
@@ -421,7 +424,8 @@ Return plain text only."""
     except Exception:
         return f"Batch analysis of {len(df)} conversations shows an average sentiment of {df['sentiment_score'].mean():.1f}/10. Primary friction occurs in Delivery & Vehicle Quality inquiries. High escalation risk is driven by unnotified fulfillment delays. Recommendation: Implement automated proactive tracking updates and instant rental credit workflows into Sebastian's dialogue model."
 
-# Response Improver API
+# Response Improver API (Cached)
+@st.cache_data(show_spinner=False, ttl=3600)
 def improve_response_call(customer_msg, current_response, context):
     client = get_openai_client()
     if not client:
@@ -450,7 +454,8 @@ Return ONLY a JSON object with keys:
         res = client.chat.completions.create(
             model="gpt-4o-mini",
             messages=[{"role": "user", "content": prompt}],
-            temperature=0.3
+            temperature=0.3,
+            max_tokens=400
         )
         cleaned = clean_json_string(res.choices[0].message.content)
         return json.loads(cleaned)
@@ -848,7 +853,7 @@ elif st.session_state["nav"] == "Batch Dashboard":
                         res["conversation_num"] = idx + 1
                         results.append(res)
                         progress_bar.progress((idx + 1) / total_rows)
-                        time.sleep(0.5)
+                        time.sleep(0.05)
 
                     status_text.text("Processing complete!")
                     st.session_state["batch_results"] = pd.DataFrame(results)
