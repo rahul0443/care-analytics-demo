@@ -682,6 +682,8 @@ elif st.session_state["nav"] == "Conversation Analyzer":
     st.title("🔍 Single Conversation Analyzer")
     st.caption("Paste a transcript or click a sample to generate structured CARE quality insights.")
 
+    if "active_sample_label" not in st.session_state:
+        st.session_state["active_sample_label"] = "🚚 Sample 1: Delayed Delivery"
     if "transcript_text_area" not in st.session_state:
         st.session_state["transcript_text_area"] = SAMPLE_CONVERSATIONS["Sample 1: Delayed Delivery (Frustrated)"]
 
@@ -692,35 +694,57 @@ elif st.session_state["nav"] == "Conversation Analyzer":
         
         st.markdown("**Load Sample Conversations:**")
         s_cols = st.columns(3)
-        if s_cols[0].button("🚚 1. Delivery"):
+        btn1_type = "primary" if st.session_state.get("active_sample_label") == "🚚 Sample 1: Delayed Delivery" else "secondary"
+        btn2_type = "primary" if st.session_state.get("active_sample_label") == "💰 Sample 2: Financing APR" else "secondary"
+        btn3_type = "primary" if st.session_state.get("active_sample_label") == "🔄 Sample 3: Trade-in" else "secondary"
+
+        if s_cols[0].button("🚚 1. Delivery", type=btn1_type, use_container_width=True):
+            st.session_state["active_sample_label"] = "🚚 Sample 1: Delayed Delivery"
             st.session_state["transcript_text_area"] = SAMPLE_CONVERSATIONS["Sample 1: Delayed Delivery (Frustrated)"]
             st.session_state["last_analysis"] = analyze_conversation(st.session_state["transcript_text_area"])
             st.rerun()
 
-        if s_cols[1].button("💰 2. APR"):
+        if s_cols[1].button("💰 2. APR", type=btn2_type, use_container_width=True):
+            st.session_state["active_sample_label"] = "💰 Sample 2: Financing APR"
             st.session_state["transcript_text_area"] = SAMPLE_CONVERSATIONS["Sample 2: Financing Confusion (Confused)"]
             st.session_state["last_analysis"] = analyze_conversation(st.session_state["transcript_text_area"])
             st.rerun()
 
-        if s_cols[2].button("🔄 3. Trade-in"):
+        if s_cols[2].button("🔄 3. Trade-in", type=btn3_type, use_container_width=True):
+            st.session_state["active_sample_label"] = "🔄 Sample 3: Trade-in"
             st.session_state["transcript_text_area"] = SAMPLE_CONVERSATIONS["Sample 3: Happy Trade-in Customer (Positive)"]
             st.session_state["last_analysis"] = analyze_conversation(st.session_state["transcript_text_area"])
             st.rerun()
             
         s_cols2 = st.columns(2)
-        if s_cols2[0].button("🚗 4. Paint Scratch"):
+        btn4_type = "primary" if st.session_state.get("active_sample_label") == "🚗 Sample 4: Paint Scratch" else "secondary"
+        btn5_type = "primary" if st.session_state.get("active_sample_label") == "📄 Sample 5: DMV Registration" else "secondary"
+
+        if s_cols2[0].button("🚗 4. Paint Scratch", type=btn4_type, use_container_width=True):
+            st.session_state["active_sample_label"] = "🚗 Sample 4: Paint Scratch"
             st.session_state["transcript_text_area"] = SAMPLE_CONVERSATIONS["Sample 4: Vehicle Quality Concern (Upset)"]
             st.session_state["last_analysis"] = analyze_conversation(st.session_state["transcript_text_area"])
             st.rerun()
 
-        if s_cols2[1].button("📄 5. DMV Registration"):
+        if s_cols2[1].button("📄 5. DMV Registration", type=btn5_type, use_container_width=True):
+            st.session_state["active_sample_label"] = "📄 Sample 5: DMV Registration"
             st.session_state["transcript_text_area"] = SAMPLE_CONVERSATIONS["Sample 5: Documentation Question (Neutral)"]
             st.session_state["last_analysis"] = analyze_conversation(st.session_state["transcript_text_area"])
             st.rerun()
 
+        st.markdown("<br>", unsafe_allow_html=True)
+
+        active_lbl = st.session_state.get("active_sample_label", "Custom Transcript")
+        st.markdown(f"""
+        <div style="background: rgba(34, 139, 230, 0.12); border: 1px solid rgba(34, 139, 230, 0.35); border-radius: 8px; padding: 10px 14px; margin-bottom: 12px; display: flex; align-items: center; justify-content: space-between;">
+            <span style="font-size: 0.83rem; color: #94A3B8; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em;">Active Conversation:</span>
+            <span class="badge badge-blue" style="font-size: 0.85rem; padding: 4px 12px;">✓ {active_lbl}</span>
+        </div>
+        """, unsafe_allow_html=True)
+
         user_transcript = st.text_area(
             "Conversation Transcript",
-            height=380,
+            height=340,
             key="transcript_text_area"
         )
         
