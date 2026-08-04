@@ -10,7 +10,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-# Set Streamlit Page Configuration
+# Page Configuration
 st.set_page_config(
     page_title="CARE Analytics Engine | Carvana CX Strategy",
     page_icon="🚗",
@@ -18,37 +18,37 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# Custom High-End Styling (Official Carvana Color System & Glassmorphism UI)
+# Enterprise UI/UX Design System (Ultra-Clean, High-Contrast & Readable)
 st.markdown("""
     <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap');
     
-    /* Global Reset & Typography */
+    /* Global Canvas & Base Fonts */
     html, body, .stApp {
-        background-color: #071320;
-        color: #F3F4F6;
+        background-color: #070C14;
+        color: #F8FAFC;
         font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
     }
     
     h1, h2, h3, h4, h5, h6 {
-        font-family: 'Plus Jakarta Sans', 'Inter', sans-serif !important;
+        font-family: 'Plus Jakarta Sans', sans-serif !important;
         font-weight: 700 !important;
         letter-spacing: -0.02em !important;
     }
 
-    /* Top Navbar Header */
+    /* Top Glass Navbar */
     .carvana-navbar {
-        background: rgba(13, 37, 63, 0.75);
+        background: rgba(15, 24, 38, 0.85);
         backdrop-filter: blur(16px);
         -webkit-backdrop-filter: blur(16px);
-        border: 1px solid rgba(34, 139, 230, 0.25);
+        border: 1px solid rgba(255, 255, 255, 0.08);
         border-radius: 14px;
-        padding: 18px 28px;
-        margin-bottom: 28px;
+        padding: 20px 28px;
+        margin-bottom: 30px;
         display: flex;
         justify-content: space-between;
         align-items: center;
-        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.35);
     }
     .brand-title-container {
         display: flex;
@@ -57,27 +57,25 @@ st.markdown("""
     }
     .brand-logo-badge {
         background: linear-gradient(135deg, #106BC7 0%, #228BE6 100%);
-        width: 44px;
-        height: 44px;
+        width: 46px;
+        height: 46px;
         border-radius: 12px;
         display: flex;
         align-items: center;
         justify-content: center;
         font-size: 22px;
-        box-shadow: 0 4px 14px rgba(34, 139, 230, 0.4);
+        box-shadow: 0 4px 14px rgba(34, 139, 230, 0.35);
     }
     .carvana-navbar h2 {
         color: #FFFFFF !important;
         margin: 0;
-        font-size: 1.4rem;
-        background: linear-gradient(90deg, #FFFFFF 0%, #E2E8F0 100%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
+        font-size: 1.45rem;
+        letter-spacing: -0.02em;
     }
     .carvana-navbar p {
         color: #94A3B8 !important;
         margin: 2px 0 0 0;
-        font-size: 0.83rem;
+        font-size: 0.85rem;
     }
     .status-pill {
         background: rgba(0, 200, 150, 0.12);
@@ -99,36 +97,33 @@ st.markdown("""
         box-shadow: 0 0 8px #00C896;
     }
     
-    /* Glass Cards */
+    /* Ultra-Clean Cards */
     .glass-card {
-        background: rgba(13, 37, 63, 0.65);
-        backdrop-filter: blur(12px);
-        -webkit-backdrop-filter: blur(12px);
-        border: 1px solid rgba(34, 139, 230, 0.2);
+        background: #0F1826;
+        border: 1px solid rgba(255, 255, 255, 0.07);
         border-radius: 14px;
         padding: 24px;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-        transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+        transition: transform 0.2s ease, border-color 0.2s ease;
     }
     .glass-card:hover {
-        border-color: rgba(34, 139, 230, 0.5);
+        border-color: rgba(34, 139, 230, 0.4);
         transform: translateY(-2px);
-        box-shadow: 0 14px 36px rgba(34, 139, 230, 0.15);
     }
     
-    /* Metric Cards */
+    /* Clean Metric Cards */
     .metric-card {
-        background: rgba(13, 37, 63, 0.75);
-        border: 1px solid rgba(34, 139, 230, 0.2);
+        background: #0F1826;
+        border: 1px solid rgba(255, 255, 255, 0.08);
         border-radius: 12px;
-        padding: 20px;
+        padding: 22px 16px;
         text-align: center;
-        box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+        box-shadow: 0 4px 16px rgba(0,0,0,0.2);
         transition: all 0.2s ease;
     }
     .metric-card:hover {
         border-color: #228BE6;
-        box-shadow: 0 8px 24px rgba(34, 139, 230, 0.2);
+        transform: translateY(-2px);
     }
     .metric-val {
         font-family: 'Plus Jakarta Sans', sans-serif;
@@ -139,46 +134,39 @@ st.markdown("""
     }
     .metric-lbl {
         color: #94A3B8;
-        font-size: 0.8rem;
+        font-size: 0.78rem;
         font-weight: 600;
         text-transform: uppercase;
         letter-spacing: 0.06em;
     }
     
-    /* Highlight & Feature Boxes */
+    /* Content Highlight Boxes */
     .insight-box-blue {
         background: rgba(34, 139, 230, 0.08);
         border-left: 4px solid #228BE6;
         border-radius: 0 10px 10px 0;
-        padding: 18px 22px;
-        margin: 16px 0;
-    }
-    .insight-box-teal {
-        background: rgba(0, 200, 150, 0.08);
-        border-left: 4px solid #00C896;
-        border-radius: 0 10px 10px 0;
-        padding: 18px 22px;
-        margin: 16px 0;
+        padding: 20px 24px;
+        margin: 18px 0;
     }
     .insight-box-gold {
         background: rgba(250, 176, 5, 0.08);
         border-left: 4px solid #FAB005;
         border-radius: 0 10px 10px 0;
-        padding: 14px 18px;
+        padding: 16px 20px;
         margin: 12px 0;
     }
     .response-card-red {
         background: rgba(255, 75, 75, 0.06);
         border-left: 4px solid #FF4B4B;
         border-radius: 0 10px 10px 0;
-        padding: 18px;
+        padding: 20px;
         height: 100%;
     }
-    .response-card-teal {
-        background: rgba(0, 200, 150, 0.06);
-        border-left: 4px solid #00C896;
+    .response-card-blue {
+        background: rgba(34, 139, 230, 0.06);
+        border-left: 4px solid #228BE6;
         border-radius: 0 10px 10px 0;
-        padding: 18px;
+        padding: 20px;
         height: 100%;
     }
 
@@ -189,17 +177,17 @@ st.markdown("""
         border-radius: 20px;
         font-size: 0.78rem;
         font-weight: 700;
-        letter-spacing: 0.02em;
     }
     .badge-green { background: rgba(0, 200, 150, 0.2); color: #00C896; border: 1px solid rgba(0, 200, 150, 0.4); }
     .badge-blue { background: rgba(34, 139, 230, 0.2); color: #228BE6; border: 1px solid rgba(34, 139, 230, 0.4); }
     .badge-yellow { background: rgba(250, 176, 5, 0.2); color: #FAB005; border: 1px solid rgba(250, 176, 5, 0.4); }
     .badge-red { background: rgba(255, 75, 75, 0.2); color: #FF4B4B; border: 1px solid rgba(255, 75, 75, 0.4); }
 
-    /* Streamlit UI Controls Tweaks */
+    /* Clean Buttons */
     .stButton > button {
         border-radius: 8px !important;
         font-weight: 600 !important;
+        padding: 8px 16px !important;
         transition: all 0.2s ease !important;
     }
     .stButton > button[kind="primary"] {
@@ -212,15 +200,15 @@ st.markdown("""
         box-shadow: 0 6px 18px rgba(34, 139, 230, 0.5) !important;
     }
 
-    /* Sidebar Styling */
+    /* Sidebar Clean styling */
     section[data-testid="stSidebar"] {
-        background-color: #050D17 !important;
-        border-right: 1px solid rgba(34, 139, 230, 0.15);
+        background-color: #040810 !important;
+        border-right: 1px solid rgba(255, 255, 255, 0.06);
     }
     </style>
 """, unsafe_allow_html=True)
 
-# Sample Conversations Dictionary
+# Sample Conversations
 SAMPLE_CONVERSATIONS = {
     "Sample 1: Delayed Delivery (Frustrated)": """Customer: Hi, I've been waiting for my 2021 Toyota Camry delivery since yesterday at 3 PM. Nobody showed up and nobody called me.
 Agent: Thanks for contacting Carvana. Let me look up your order status. Can I have your order number?
@@ -272,7 +260,7 @@ Customer: Okay, so should I contact you back in 3 days to get the digital tag ex
 Agent: Yes, feel free to check back in 3 days or watch your email dashboard for registration updates."""
 }
 
-# Helper: OpenAI Client Initializer
+# OpenAI Helper
 def get_openai_client():
     api_key = None
     if "OPENAI_API_KEY" in st.secrets:
@@ -289,7 +277,6 @@ def get_openai_client():
             return None
     return None
 
-# Helper: JSON Cleaner
 def clean_json_string(raw_str):
     if not raw_str:
         return ""
@@ -297,87 +284,66 @@ def clean_json_string(raw_str):
     cleaned = re.sub(r'```\s*$', '', cleaned)
     return cleaned.strip()
 
-# Mock Analytics Generator (Fallback Engine)
+# Mock Fallback Engine
 def generate_mock_analysis(transcript):
     text_lower = transcript.lower()
-    
     if "delayed" in text_lower or "canceling" in text_lower or "camry" in text_lower:
         return {
-            "sentiment_score": 2,
-            "sentiment_label": "Highly Frustrated",
-            "issue_category": "Delivery",
+            "sentiment_score": 2, "sentiment_label": "Highly Frustrated", "issue_category": "Delivery",
             "issue_summary": "Customer experienced unnotified delivery delay and missed time off work, seeking schedule guarantee or compensation.",
-            "resolution_status": "Unresolved",
-            "resolution_quality_score": 3,
+            "resolution_status": "Unresolved", "resolution_quality_score": 3,
             "agent_performance": "The agent provided rigid, robotic timeline updates without acknowledging the severe inconvenience or offering proactive escalation.",
             "key_friction_point": "Lack of proactive delay notification and refusal to offer supervisor escalation or inconvenience credit.",
             "suggested_better_response": "I sincerely apologize for missing your delivery window without notice. I know your time is valuable. Let me immediately escalate this to our hub logistics dispatch manager to secure a priority slot and issue a $150 inconvenience credit to your account right now.",
-            "escalation_risk": "High",
-            "escalation_reason": "Customer is threatening order cancellation due to missed work hours and lack of resolution.",
+            "escalation_risk": "High", "escalation_reason": "Customer is threatening order cancellation due to missed work hours and lack of resolution.",
             "deep_dive": "This conversation represents a critical friction point in Carvana's delivery fulfillment chain. The customer experienced an unnotified delay on a high-stakes delivery date. The agent responded with passive policy statements rather than empathetic ownership. Sebastian should be trained to recognize missed delivery triggers, immediately offer standardized inconvenience credits, and flag dispatch for priority scheduling."
         }
     elif "apr" in text_lower or "pre-qualification" in text_lower or "civic" in text_lower:
         return {
-            "sentiment_score": 5,
-            "sentiment_label": "Frustrated",
-            "issue_category": "Financing",
+            "sentiment_score": 5, "sentiment_label": "Frustrated", "issue_category": "Financing",
             "issue_summary": "Customer questioned why final contract APR increased by 1.9% compared to pre-qualification offer.",
-            "resolution_status": "Partially Resolved",
-            "resolution_quality_score": 6,
+            "resolution_status": "Partially Resolved", "resolution_quality_score": 6,
             "agent_performance": "Agent accurately explained technical underwriting factors but relied heavily on financial jargon that left the customer slightly confused.",
             "key_friction_point": "Complex explanation of loan-to-value tiers and stip verifications without clear step-by-step guidance on how to lower the rate.",
             "suggested_better_response": "I completely understand why a rate change is surprising! Pre-qualification is an estimate, but when protection plans were added, it shifted your total funded amount into a different bracket. If we adjust your warranty coverage, I can recalculate your rate back toward 4.9% right now.",
-            "escalation_risk": "Medium",
-            "escalation_reason": "Customer accepted the explanation tentatively but remains dissatisfied with payment variance.",
+            "escalation_risk": "Medium", "escalation_reason": "Customer accepted the explanation tentatively but remains dissatisfied with payment variance.",
             "deep_dive": "Financing explanations require balancing accuracy with accessibility. While the agent correctly identified underwriting variance factors, the heavy use of industry jargon created customer friction. Sebastian should be trained to break down interest rate variances into simple line-item math and proactively demonstrate how protection plan adjustments directly lower monthly payments."
         }
     elif "trade-in" in text_lower or "mazda" in text_lower or "subaru" in text_lower:
         return {
-            "sentiment_score": 9,
-            "sentiment_label": "Highly Satisfied",
-            "issue_category": "Trade-in",
+            "sentiment_score": 9, "sentiment_label": "Highly Satisfied", "issue_category": "Trade-in",
             "issue_summary": "Customer verified approved trade-in document status and logistics for Friday vehicle exchange.",
-            "resolution_status": "Resolved",
-            "resolution_quality_score": 10,
+            "resolution_status": "Resolved", "resolution_quality_score": 10,
             "agent_performance": "Agent was warm, enthusiastic, verified all document approvals instantly, and provided a clear step-by-step Advocate pickup expectation.",
             "key_friction_point": "Minor uncertainty about what steps happen during the physical pickup appointment.",
             "suggested_better_response": "Your trade-in is 100% verified and ready! When our Advocate arrives on Friday, they'll complete a quick 5-minute walkaround, sign the transfer forms, and hand over your Outback keys!",
-            "escalation_risk": "Low",
-            "escalation_reason": "Customer is extremely pleased with the online appraisal process and clear verification steps.",
+            "escalation_risk": "Low", "escalation_reason": "Customer is extremely pleased with the online appraisal process and clear verification steps.",
             "deep_dive": "This conversation illustrates an ideal customer Advocate interaction. The agent validated the customer's excitement, confirmed document verification, and outlined exact delivery expectations. Sebastian should use this transcript format as a benchmark model for positive trade-in confirmations."
         }
     elif "scratch" in text_lower or "paint" in text_lower or "f-150" in text_lower:
         return {
-            "sentiment_score": 3,
-            "sentiment_label": "Frustrated",
-            "issue_category": "Vehicle Quality",
+            "sentiment_score": 3, "sentiment_label": "Frustrated", "issue_category": "Vehicle Quality",
             "issue_summary": "Customer discovered undisclosed 6-inch paint scratch post-delivery and requested repair and rental car clarity.",
-            "resolution_status": "Unresolved",
-            "resolution_quality_score": 4,
+            "resolution_status": "Unresolved", "resolution_quality_score": 4,
             "agent_performance": "Agent acknowledged the cosmetic defect but deflected immediate rental car and repair answers to SilverRock third-party adjusters.",
             "key_friction_point": "Uncertainty surrounding SilverRock repair duration and rental vehicle approval during the 7-day trial.",
             "suggested_better_response": "I am so sorry this scratch wasn't caught in our inspection photos! Because you're in your 7-Day Guarantee, I am starting a SilverRock repair ticket right now and authorizing a $50/day rental car credit so you aren't left without transportation while it's fixed.",
-            "escalation_risk": "High",
-            "escalation_reason": "Customer feels misled regarding undisclosed cosmetic condition on a high-value truck purchase.",
+            "escalation_risk": "High", "escalation_reason": "Customer feels misled regarding undisclosed cosmetic condition on a high-value truck purchase.",
             "deep_dive": "Undisclosed cosmetic defects directly threaten customer trust during the 7-Day Guarantee period. The agent's reliance on third-party SilverRock policies created ambiguity regarding rental coverage. Sebastian must be empowered to initiate immediate cosmetic repair claims while providing definitive rental car guidelines."
         }
     else:
         return {
-            "sentiment_score": 6,
-            "sentiment_label": "Neutral",
-            "issue_category": "Documentation",
+            "sentiment_score": 6, "sentiment_label": "Neutral", "issue_category": "Documentation",
             "issue_summary": "Customer inquired about Texas temporary license plate expiration and official registration timeline.",
-            "resolution_status": "Partially Resolved",
-            "resolution_quality_score": 7,
+            "resolution_status": "Partially Resolved", "resolution_quality_score": 7,
             "agent_performance": "Agent provided general registration timelines and correctly explained the 30-day digital temp tag extension rule.",
             "key_friction_point": "Generic nationwide registration timelines rather than state-specific Texas DMV tracking updates.",
             "suggested_better_response": "In Texas, our average DMV registration completion is 25 days. Since your temp tag expires in 10 days, I've queued up your 30-day digital extension tag so you can print it directly from your dashboard in 3 days if official plates haven't arrived yet!",
-            "escalation_risk": "Low",
-            "escalation_reason": "Customer received actionable instructions on obtaining a temporary tag extension.",
+            "escalation_risk": "Low", "escalation_reason": "Customer received actionable instructions on obtaining a temporary tag extension.",
             "deep_dive": "Registration inquiries account for a significant portion of post-delivery care volume. The agent handled the core policy well but missed an opportunity to provide Texas-specific tracking metrics. Sebastian should integrate state-specific DMV API timelines into registration responses."
         }
 
-# Single Conversation Analysis API
+# Single Conversation Analysis
 def analyze_conversation(transcript):
     client = get_openai_client()
     if not client:
@@ -414,11 +380,10 @@ Return exactly this structure:
             ],
             temperature=0.2
         )
-        raw_content = response.choices[0].message.content
-        cleaned_content = clean_json_string(raw_content)
+        cleaned_content = clean_json_string(response.choices[0].message.content)
         return json.loads(cleaned_content)
     except Exception as e:
-        st.warning(f"OpenAI API notice: {e}. Utilizing CARE engine fallback.")
+        st.warning(f"CARE Engine notice: {e}. Utilizing fallback analytics.")
         return generate_mock_analysis(transcript)
 
 # Executive Summary API
@@ -508,32 +473,27 @@ def generate_training_faqs_call(transcripts_str):
                 {
                     "question": "What happens if my delivery is delayed without notification?",
                     "ideal_answer": "If your delivery window changes, Sebastian will proactively send real-time GPS tracking updates and issue an immediate inconvenience credit for schedule shifts.",
-                    "category": "Delivery",
-                    "priority": "High"
+                    "category": "Delivery", "priority": "High"
                 },
                 {
                     "question": "Why did my final contract APR change from my pre-qualification estimate?",
                     "ideal_answer": "Pre-qualification uses soft credit pulls. Final APR adjusts based on verified credit stip verifications, protection plans, or loan-to-value changes. You can adjust warranty options to re-lower your rate.",
-                    "category": "Financing",
-                    "priority": "High"
+                    "category": "Financing", "priority": "High"
                 },
                 {
                     "question": "What should I do if I spot an undisclosed cosmetic paint scratch at delivery?",
                     "ideal_answer": "Within your 7-Day Guarantee, report cosmetic defects directly in app to launch a 24-48 hr SilverRock repair claim with rental car allowance options.",
-                    "category": "Vehicle Quality",
-                    "priority": "High"
+                    "category": "Vehicle Quality", "priority": "High"
                 },
                 {
                     "question": "How do I get a temporary tag extension if my state registration is delayed?",
                     "ideal_answer": "If your temporary tag is within 7 days of expiration, a 30-day digital tag extension can be printed directly from your account dashboard.",
-                    "category": "Documentation",
-                    "priority": "Medium"
+                    "category": "Documentation", "priority": "Medium"
                 },
                 {
                     "question": "What happens during the trade-in vehicle pickup appointment?",
                     "ideal_answer": "Our Customer Advocate performs a quick 5-minute walkaround, verifies title documents, completes the bill of sale, and hands over your new keys!",
-                    "category": "Trade-in",
-                    "priority": "Medium"
+                    "category": "Trade-in", "priority": "Medium"
                 }
             ],
             "recommendations": [
@@ -564,7 +524,7 @@ Return ONLY a JSON object with keys:
     except Exception:
         return generate_training_faqs_call("")
 
-# Top Glassmorphic Navbar Component
+# Top Glass Navbar Component
 st.markdown("""
 <div class="carvana-navbar">
     <div class="brand-title-container">
@@ -582,7 +542,7 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # Sidebar Navigation
-st.sidebar.image("https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/Carvana_logo.svg/512px-Carvana_logo.svg.png", width=150)
+st.sidebar.image("https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/Carvana_logo.svg/512px-Carvana_logo.svg.png", width=140)
 st.sidebar.markdown("<br>", unsafe_allow_html=True)
 
 if "nav" not in st.session_state:
@@ -620,18 +580,18 @@ if st.session_state["nav"] == "Home":
         st.markdown("""
         <div class="glass-card">
             <h3 style="color: #228BE6; margin-top:0;">🎯 The Real Problem</h3>
-            <p style="line-height: 1.6; color: #E2E8F0;">
+            <p style="line-height: 1.65; color: #E2E8F0;">
                 Carvana handles millions of customer conversations every month. Their AI agent <strong>Sebastian</strong> handles standard queries while human <strong>Customer Advocates</strong> handle complex ones. 
             </p>
-            <p style="line-height: 1.6; color: #E2E8F0;">
+            <p style="line-height: 1.65; color: #E2E8F0;">
                 The challenge: <strong>How do you maintain quality at scale?</strong>
             </p>
-            <ul style="color: #94A3B8; line-height: 1.7; padding-left: 20px;">
+            <ul style="color: #94A3B8; line-height: 1.75; padding-left: 20px;">
                 <li>How do you identify conversations that went poorly?</li>
                 <li>Where is Sebastian experiencing dialogue friction?</li>
                 <li>What specific scenarios require updated training data?</li>
             </ul>
-            <p style="line-height: 1.6; color: #E2E8F0;">
+            <p style="line-height: 1.65; color: #E2E8F0;">
                 Carvana built <strong>CARE</strong> to answer these questions — analyzing <strong>100% of conversations with AI</strong>, not just a random 1% sample.
             </p>
         </div>
@@ -641,21 +601,21 @@ if st.session_state["nav"] == "Home":
         st.markdown("""
         <div class="glass-card">
             <h3 style="color: #00C896; margin-top:0;">🚀 What This App Does</h3>
-            <p style="line-height: 1.6; color: #E2E8F0;">
+            <p style="line-height: 1.65; color: #E2E8F0;">
                 This web application simulates the analytical layer that powers Carvana's strategic decision-making:
             </p>
-            <ul style="color: #94A3B8; line-height: 1.7; padding-left: 20px;">
+            <ul style="color: #94A3B8; line-height: 1.75; padding-left: 20px;">
                 <li><strong>Conversation Analyzer:</strong> Instant AI quality scoring, friction points, and <em>"What Sebastian Should Have Said"</em>.</li>
                 <li><strong>Batch Dashboard:</strong> Full executive sentiment tracking, category distribution, and risk threshold monitoring.</li>
                 <li><strong>Sebastian Improvement Lab:</strong> Side-by-side prompt optimization with senior CX coaching notes and training FAQ extraction.</li>
             </ul>
-            <p style="line-height: 1.6; color: #E2E8F0;">
+            <p style="line-height: 1.65; color: #E2E8F0;">
                 Every feature maps directly to real analytical problems Carvana's strategy team solves every day.
             </p>
         </div>
         """, unsafe_allow_html=True)
 
-    st.markdown("<br><hr style='border-color: rgba(34,139,230,0.15);'><br>", unsafe_allow_html=True)
+    st.markdown("<br><hr style='border-color: rgba(255,255,255,0.07);'><br>", unsafe_allow_html=True)
     st.markdown("<h3 style='text-align: center; color: #F8FAFC;'>Carvana Real CX Impact</h3>", unsafe_allow_html=True)
     st.markdown("<br>", unsafe_allow_html=True)
     
@@ -792,9 +752,9 @@ elif st.session_state["nav"] == "Conversation Analyzer":
                 status_class = "badge-green" if status == "Resolved" else ("badge-yellow" if status == "Partially Resolved" else "badge-red")
                 
                 st.markdown(f"""
-                <div style="background: rgba(13, 37, 63, 0.7); padding: 18px; border-radius: 12px; border: 1px solid rgba(34,139,230,0.2);">
+                <div style="background: #0F1826; padding: 18px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.07);">
                     <p style="margin-bottom:8px;"><strong>Category:</strong> {icon} {cat}</p>
-                    <p style="margin-bottom:8px; line-height: 1.4;"><strong>Summary:</strong> {res.get("issue_summary", "N/A")}</p>
+                    <p style="margin-bottom:8px; line-height: 1.45;"><strong>Summary:</strong> {res.get("issue_summary", "N/A")}</p>
                     <p style="margin:0;"><strong>Status:</strong> <span class="badge {status_class}">{status}</span></p>
                 </div>
                 """, unsafe_allow_html=True)
@@ -802,8 +762,8 @@ elif st.session_state["nav"] == "Conversation Analyzer":
             with c_right:
                 st.markdown("##### 🤖 Agent Performance")
                 st.markdown(f"""
-                <div style="background: rgba(13, 37, 63, 0.7); padding: 18px; border-radius: 12px; border: 1px solid rgba(34,139,230,0.2);">
-                    <p style="margin-bottom:8px; line-height: 1.4;"><strong>Evaluation:</strong> {res.get("agent_performance", "N/A")}</p>
+                <div style="background: #0F1826; padding: 18px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.07);">
+                    <p style="margin-bottom:8px; line-height: 1.45;"><strong>Evaluation:</strong> {res.get("agent_performance", "N/A")}</p>
                     <div class="insight-box-gold">
                         <strong style="color: #FAB005;">⚠️ Key Friction Point:</strong><br>{res.get("key_friction_point", "N/A")}
                     </div>
@@ -817,11 +777,11 @@ elif st.session_state["nav"] == "Conversation Analyzer":
             st.markdown("""
             <div class="insight-box-blue">
                 <h5 style="color: #228BE6; margin-top:0;">💡 What Sebastian Should Have Said</h5>
-                <p style="font-size: 1.05rem; line-height: 1.5; margin-bottom: 0; color: #F8FAFC;">{}</p>
+                <p style="font-size: 1.05rem; line-height: 1.55; margin-bottom: 0; color: #F8FAFC;">{}</p>
             </div>
             """.format(res.get("suggested_better_response", "N/A")), unsafe_allow_html=True)
 
-            # Row 4: Deep Dive Analysis Expander
+            # Row 4: Deep Dive Narrative Analysis Expander
             with st.expander("🔬 Deep Dive Narrative Analysis (GPT-4o)", expanded=True):
                 st.write(res.get("deep_dive", "No narrative available."))
         else:
@@ -964,8 +924,8 @@ elif st.session_state["nav"] == "Batch Dashboard":
                 template="plotly_dark"
             )
             fig_bar.update_layout(
-                plot_bgcolor="#0D253F",
-                paper_bgcolor="#0D253F",
+                plot_bgcolor="#0F1826",
+                paper_bgcolor="#0F1826",
                 margin=dict(l=20, r=20, t=30, b=20),
                 height=320
             )
@@ -986,8 +946,8 @@ elif st.session_state["nav"] == "Batch Dashboard":
                 hole=0.4
             )
             fig_pie.update_layout(
-                plot_bgcolor="#0D253F",
-                paper_bgcolor="#0D253F",
+                plot_bgcolor="#0F1826",
+                paper_bgcolor="#0F1826",
                 margin=dict(l=20, r=20, t=30, b=20),
                 height=320
             )
@@ -1013,8 +973,8 @@ elif st.session_state["nav"] == "Batch Dashboard":
             annotation_font_color="#FF4B4B"
         )
         fig_line.update_layout(
-            plot_bgcolor="#0D253F",
-            paper_bgcolor="#0D253F",
+            plot_bgcolor="#0F1826",
+            paper_bgcolor="#0F1826",
             margin=dict(l=20, r=20, t=30, b=20),
             height=300,
             yaxis=dict(range=[0, 10.5])
@@ -1103,8 +1063,8 @@ elif st.session_state["nav"] == "Sebastian Improvement Lab":
                 
             with c_out2:
                 st.markdown(f"""
-                <div class="response-card-teal">
-                    <h5 style="color: #00C896; margin-top: 0;">✨ Improved Response</h5>
+                <div class="response-card-blue">
+                    <h5 style="color: #228BE6; margin-top: 0;">✨ Improved Response</h5>
                     <p style="font-size: 1rem; line-height: 1.5; color: #F8FAFC;">{imp_res.get("improved_response")}</p>
                 </div>
                 """, unsafe_allow_html=True)
