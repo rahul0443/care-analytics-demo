@@ -701,19 +701,22 @@ elif st.session_state["nav"] == "Conversation Analyzer":
         if s_cols[0].button("🚚 1. Delivery", type=btn1_type, use_container_width=True, help="Load Delayed Delivery transcript"):
             st.session_state["active_sample_label"] = "🚚 Sample 1: Delayed Delivery"
             st.session_state["transcript_text_area"] = SAMPLE_CONVERSATIONS["Sample 1: Delayed Delivery (Frustrated)"]
-            st.session_state["last_analysis"] = analyze_conversation(st.session_state["transcript_text_area"])
+            st.session_state["analysis_done"] = False
+            st.session_state.pop("last_analysis", None)
             st.rerun()
 
         if s_cols[1].button("💰 2. APR", type=btn2_type, use_container_width=True, help="Load Financing APR transcript"):
             st.session_state["active_sample_label"] = "💰 Sample 2: Financing APR"
             st.session_state["transcript_text_area"] = SAMPLE_CONVERSATIONS["Sample 2: Financing Confusion (Confused)"]
-            st.session_state["last_analysis"] = analyze_conversation(st.session_state["transcript_text_area"])
+            st.session_state["analysis_done"] = False
+            st.session_state.pop("last_analysis", None)
             st.rerun()
 
         if s_cols[2].button("🔄 3. Trade-in", type=btn3_type, use_container_width=True, help="Load Trade-in verification transcript"):
             st.session_state["active_sample_label"] = "🔄 Sample 3: Trade-in"
             st.session_state["transcript_text_area"] = SAMPLE_CONVERSATIONS["Sample 3: Happy Trade-in Customer (Positive)"]
-            st.session_state["last_analysis"] = analyze_conversation(st.session_state["transcript_text_area"])
+            st.session_state["analysis_done"] = False
+            st.session_state.pop("last_analysis", None)
             st.rerun()
             
         s_cols2 = st.columns(3)
@@ -723,18 +726,22 @@ elif st.session_state["nav"] == "Conversation Analyzer":
         if s_cols2[0].button("🚗 4. Scratch", type=btn4_type, use_container_width=True, help="Load Paint Scratch transcript"):
             st.session_state["active_sample_label"] = "🚗 Sample 4: Paint Scratch"
             st.session_state["transcript_text_area"] = SAMPLE_CONVERSATIONS["Sample 4: Vehicle Quality Concern (Upset)"]
-            st.session_state["last_analysis"] = analyze_conversation(st.session_state["transcript_text_area"])
+            st.session_state["analysis_done"] = False
+            st.session_state.pop("last_analysis", None)
             st.rerun()
 
         if s_cols2[1].button("📄 5. DMV Tag", type=btn5_type, use_container_width=True, help="Load Registration Tag transcript"):
             st.session_state["active_sample_label"] = "📄 Sample 5: DMV Registration"
             st.session_state["transcript_text_area"] = SAMPLE_CONVERSATIONS["Sample 5: Documentation Question (Neutral)"]
-            st.session_state["last_analysis"] = analyze_conversation(st.session_state["transcript_text_area"])
+            st.session_state["analysis_done"] = False
+            st.session_state.pop("last_analysis", None)
             st.rerun()
 
-        if s_cols2[2].button("✏️ Custom / Reset", type="secondary", use_container_width=True, help="Clear text area to paste custom transcript"):
+        if s_cols2[2].button("✏️ Custom / Reset", type=secondary_type if 'secondary_type' in locals() else "secondary", use_container_width=True, help="Clear text area to paste custom transcript"):
             st.session_state["active_sample_label"] = "✏️ Custom Input"
             st.session_state["transcript_text_area"] = ""
+            st.session_state["analysis_done"] = False
+            st.session_state.pop("last_analysis", None)
             st.rerun()
 
         st.markdown("<br>", unsafe_allow_html=True)
@@ -758,101 +765,109 @@ elif st.session_state["nav"] == "Conversation Analyzer":
     with right_panel:
         st.markdown("#### CARE AI Analysis Results")
         
-        # Auto-run analysis on load if last_analysis not set
-        if "last_analysis" not in st.session_state:
-            st.session_state["last_analysis"] = analyze_conversation(user_transcript)
-
         if analyze_btn:
             with st.spinner("CARE GPT-4o-mini engine analyzing conversation quality..."):
                 res = analyze_conversation(user_transcript)
                 st.session_state["last_analysis"] = res
-        
-        res = st.session_state["last_analysis"]
+                st.session_state["analysis_done"] = True
 
-        # Row 1: 3 Metric Cards
-        rm1, rm2, rm3 = st.columns(3)
-        
-        sent_score = res.get("sentiment_score", 5)
-        sent_color = "#FF4B4B" if sent_score < 4 else ("#FAB005" if sent_score <= 7 else "#00C896")
+        if st.session_state.get("analysis_done", False) and "last_analysis" in st.session_state:
+            res = st.session_state["last_analysis"]
 
-        res_qual = res.get("resolution_quality_score", 5)
-        qual_color = "#00C896" if res_qual >= 7 else ("#FAB005" if res_qual >= 4 else "#FF4B4B")
-
-        esc_risk = res.get("escalation_risk", "Low")
-        esc_color = "#FF4B4B" if esc_risk == "High" else ("#FAB005" if esc_risk == "Medium" else "#00C896")
-
-        with rm1:
-            st.markdown(f"""
-            <div class="metric-card">
-                <div class="metric-val" style="color: {sent_color};">{sent_score}/10</div>
-                <div class="metric-lbl">Sentiment Score</div>
-            </div>
-            """, unsafe_allow_html=True)
-        with rm2:
-            st.markdown(f"""
-            <div class="metric-card">
-                <div class="metric-val" style="color: {qual_color};">{res_qual}/10</div>
-                <div class="metric-lbl">Resolution Quality</div>
-            </div>
-            """, unsafe_allow_html=True)
-        with rm3:
-            st.markdown(f"""
-            <div class="metric-card">
-                <div class="metric-val" style="color: {esc_color};">{esc_risk}</div>
-                <div class="metric-lbl">Escalation Risk</div>
-            </div>
-            """, unsafe_allow_html=True)
-
-        st.markdown("<br>", unsafe_allow_html=True)
-
-        # Row 2: Issue & Agent Performance Cards
-        c_left, c_right = st.columns(2)
-        
-        category_icons = {
-            "Delivery": "🚚", "Financing": "💰", "Vehicle Quality": "🚗",
-            "Trade-in": "🔄", "Documentation": "📄", "General Inquiry": "❓", "Other": "⚙️"
-        }
-        cat = res.get("issue_category", "General Inquiry")
-        icon = category_icons.get(cat, "❓")
-
-        with c_left:
-            st.markdown("##### 📌 Issue Details")
-            status = res.get("resolution_status", "Unresolved")
-            status_class = "badge-green" if status == "Resolved" else ("badge-yellow" if status == "Partially Resolved" else "badge-red")
+            # Row 1: 3 Metric Cards
+            rm1, rm2, rm3 = st.columns(3)
             
-            st.markdown(f"""
-            <div style="background: #0F1826; padding: 18px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.07);">
-                <p style="margin-bottom:8px;"><strong>Category:</strong> {icon} {cat}</p>
-                <p style="margin-bottom:8px; line-height: 1.45;"><strong>Summary:</strong> {res.get("issue_summary", "N/A")}</p>
-                <p style="margin:0;"><strong>Status:</strong> <span class="badge {status_class}">{status}</span></p>
-            </div>
-            """, unsafe_allow_html=True)
+            sent_score = res.get("sentiment_score", 5)
+            sent_color = "#FF4B4B" if sent_score < 4 else ("#FAB005" if sent_score <= 7 else "#00C896")
 
-        with c_right:
-            st.markdown("##### 🤖 Agent Performance")
-            st.markdown(f"""
-            <div style="background: #0F1826; padding: 18px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.07);">
-                <p style="margin-bottom:8px; line-height: 1.45;"><strong>Evaluation:</strong> {res.get("agent_performance", "N/A")}</p>
-                <div class="insight-box-gold">
-                    <strong style="color: #FAB005;">⚠️ Key Friction Point:</strong><br>{res.get("key_friction_point", "N/A")}
+            res_qual = res.get("resolution_quality_score", 5)
+            qual_color = "#00C896" if res_qual >= 7 else ("#FAB005" if res_qual >= 4 else "#FF4B4B")
+
+            esc_risk = res.get("escalation_risk", "Low")
+            esc_color = "#FF4B4B" if esc_risk == "High" else ("#FAB005" if esc_risk == "Medium" else "#00C896")
+
+            with rm1:
+                st.markdown(f"""
+                <div class="metric-card">
+                    <div class="metric-val" style="color: {sent_color};">{sent_score}/10</div>
+                    <div class="metric-lbl">Sentiment Score</div>
                 </div>
-                <p style="font-size: 0.83rem; color: #94A3B8; margin: 4px 0 0 0;"><strong>Escalation Reason:</strong> {res.get("escalation_reason", "N/A")}</p>
+                """, unsafe_allow_html=True)
+            with rm2:
+                st.markdown(f"""
+                <div class="metric-card">
+                    <div class="metric-val" style="color: {qual_color};">{res_qual}/10</div>
+                    <div class="metric-lbl">Resolution Quality</div>
+                </div>
+                """, unsafe_allow_html=True)
+            with rm3:
+                st.markdown(f"""
+                <div class="metric-card">
+                    <div class="metric-val" style="color: {esc_color};">{esc_risk}</div>
+                    <div class="metric-lbl">Escalation Risk</div>
+                </div>
+                """, unsafe_allow_html=True)
+
+            st.markdown("<br>", unsafe_allow_html=True)
+
+            # Row 2: Issue & Agent Performance Cards
+            c_left, c_right = st.columns(2)
+            
+            category_icons = {
+                "Delivery": "🚚", "Financing": "💰", "Vehicle Quality": "🚗",
+                "Trade-in": "🔄", "Documentation": "📄", "General Inquiry": "❓", "Other": "⚙️"
+            }
+            cat = res.get("issue_category", "General Inquiry")
+            icon = category_icons.get(cat, "❓")
+
+            with c_left:
+                st.markdown("##### 📌 Issue Details")
+                status = res.get("resolution_status", "Unresolved")
+                status_class = "badge-green" if status == "Resolved" else ("badge-yellow" if status == "Partially Resolved" else "badge-red")
+                
+                st.markdown(f"""
+                <div style="background: #0F1826; padding: 18px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.07);">
+                    <p style="margin-bottom:8px;"><strong>Category:</strong> {icon} {cat}</p>
+                    <p style="margin-bottom:8px; line-height: 1.45;"><strong>Summary:</strong> {res.get("issue_summary", "N/A")}</p>
+                    <p style="margin:0;"><strong>Status:</strong> <span class="badge {status_class}">{status}</span></p>
+                </div>
+                """, unsafe_allow_html=True)
+
+            with c_right:
+                st.markdown("##### 🤖 Agent Performance")
+                st.markdown(f"""
+                <div style="background: #0F1826; padding: 18px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.07);">
+                    <p style="margin-bottom:8px; line-height: 1.45;"><strong>Evaluation:</strong> {res.get("agent_performance", "N/A")}</p>
+                    <div class="insight-box-gold">
+                        <strong style="color: #FAB005;">⚠️ Key Friction Point:</strong><br>{res.get("key_friction_point", "N/A")}
+                    </div>
+                    <p style="font-size: 0.83rem; color: #94A3B8; margin: 4px 0 0 0;"><strong>Escalation Reason:</strong> {res.get("escalation_reason", "N/A")}</p>
+                </div>
+                """, unsafe_allow_html=True)
+
+            st.markdown("<br>", unsafe_allow_html=True)
+
+            # Row 3: What Sebastian Should Have Said
+            st.markdown("""
+            <div class="insight-box-blue">
+                <h5 style="color: #228BE6; margin-top:0;">💡 What Sebastian Should Have Said</h5>
+                <p style="font-size: 1.05rem; line-height: 1.55; margin-bottom: 0; color: #F8FAFC;">{}</p>
+            </div>
+            """.format(res.get("suggested_better_response", "N/A")), unsafe_allow_html=True)
+
+            # Row 4: Deep Dive Narrative Analysis Expander
+            with st.expander("🔬 Deep Dive Narrative Analysis (GPT-4o-mini)", expanded=True):
+                st.write(res.get("deep_dive", "No narrative available."))
+        else:
+            st.markdown("""
+            <div class="glass-card" style="text-align: center; padding: 48px 24px; margin-top: 10px;">
+                <div style="font-size: 42px; margin-bottom: 14px;">🔍</div>
+                <h4 style="color: #228BE6; margin-bottom: 8px;">Ready for Evaluation</h4>
+                <p style="color: #94A3B8; font-size: 0.95rem; line-height: 1.6; max-width: 420px; margin: 0 auto;">
+                    Review the loaded transcript on the left or paste your own, then click <strong style="color: #F8FAFC;">✨ Analyze Conversation</strong> to run the CARE GPT-4o-mini evaluation.
+                </p>
             </div>
             """, unsafe_allow_html=True)
-
-        st.markdown("<br>", unsafe_allow_html=True)
-
-        # Row 3: What Sebastian Should Have Said
-        st.markdown("""
-        <div class="insight-box-blue">
-            <h5 style="color: #228BE6; margin-top:0;">💡 What Sebastian Should Have Said</h5>
-            <p style="font-size: 1.05rem; line-height: 1.55; margin-bottom: 0; color: #F8FAFC;">{}</p>
-        </div>
-        """.format(res.get("suggested_better_response", "N/A")), unsafe_allow_html=True)
-
-        # Row 4: Deep Dive Narrative Analysis Expander
-        with st.expander("🔬 Deep Dive Narrative Analysis (GPT-4o-mini)", expanded=True):
-            st.write(res.get("deep_dive", "No narrative available."))
 
 
 # ==========================================
