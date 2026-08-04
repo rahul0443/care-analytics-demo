@@ -373,7 +373,7 @@ Return exactly this structure:
 
     try:
         response = client.chat.completions.create(
-            model="gpt-4o",
+            model="gpt-4o-mini",
             messages=[
                 {"role": "system", "content": system_prompt},
                 {"role": "user", "content": f"Transcript:\n{transcript}"}
@@ -413,7 +413,7 @@ Return plain text only."""
 
     try:
         response = client.chat.completions.create(
-            model="gpt-4o",
+            model="gpt-4o-mini",
             messages=[{"role": "user", "content": prompt}],
             temperature=0.3
         )
@@ -448,7 +448,7 @@ Return ONLY a JSON object with keys:
 
     try:
         res = client.chat.completions.create(
-            model="gpt-4o",
+            model="gpt-4o-mini",
             messages=[{"role": "user", "content": prompt}],
             temperature=0.3
         )
@@ -515,7 +515,7 @@ Return ONLY a JSON object with keys:
 
     try:
         res = client.chat.completions.create(
-            model="gpt-4o",
+            model="gpt-4o-mini",
             messages=[{"role": "user", "content": prompt}],
             temperature=0.3
         )
@@ -536,7 +536,7 @@ st.markdown("""
     </div>
     <div class="status-pill">
         <div class="status-dot"></div>
-        LIVE GPT-4o ENGINE
+        LIVE GPT-4o-mini ENGINE
     </div>
 </div>
 """, unsafe_allow_html=True)
@@ -571,7 +571,7 @@ st.sidebar.markdown("---")
 st.sidebar.markdown("""
 <div style="font-size: 0.8rem; color: #94A3B8;">
     <strong style="color: #228BE6;">CARE Architecture</strong><br>
-    • Model: GPT-4o (Azure AI Foundry)<br>
+    • Model: GPT-4o-mini (Azure AI Foundry)<br>
     • Scope: 100% Conversation Analysis<br>
     • Target: Sebastian AI & Advocate Quality
 </div>
@@ -626,6 +626,14 @@ if st.session_state["nav"] == "Home":
             </p>
         </div>
         """, unsafe_allow_html=True)
+
+    st.markdown("""
+    <div class="insight-box-blue" style="margin-top: 24px; text-align: center;">
+        <p style="margin: 0; font-size: 0.95rem; color: #F8FAFC;">
+            💡 <strong>Tech Stack Note:</strong> Built with <strong>OpenAI GPT-4o-mini</strong> — the same model family powering Carvana's Azure AI Foundry infrastructure.
+        </p>
+    </div>
+    """, unsafe_allow_html=True)
 
     st.markdown("<br><hr style='border-color: rgba(255,255,255,0.07);'><br>", unsafe_allow_html=True)
     st.markdown("<h3 style='text-align: center; color: #F8FAFC;'>Carvana Real CX Impact</h3>", unsafe_allow_html=True)
