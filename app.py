@@ -542,8 +542,20 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # Sidebar Navigation
-st.sidebar.image("https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/Carvana_logo.svg/512px-Carvana_logo.svg.png", width=140)
-st.sidebar.markdown("<br>", unsafe_allow_html=True)
+st.sidebar.markdown("""
+<div style="padding: 10px 0 15px 0; text-align: center;">
+    <div style="background: linear-gradient(135deg, #106BC7 0%, #228BE6 100%); width: 48px; height: 48px; border-radius: 12px; margin: 0 auto 10px auto; display: flex; align-items: center; justify-content: center; font-size: 24px; box-shadow: 0 4px 14px rgba(34, 139, 230, 0.4);">
+        🚗
+    </div>
+    <h2 style="color: #228BE6; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 1.5rem; font-weight: 800; margin: 0; letter-spacing: -0.02em;">
+        CARVANA
+    </h2>
+    <p style="color: #94A3B8; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.12em; margin: 3px 0 0 0; font-weight: 600;">
+        CARE ANALYTICS
+    </p>
+</div>
+""", unsafe_allow_html=True)
+
 
 if "nav" not in st.session_state:
     st.session_state["nav"] = "Home"
