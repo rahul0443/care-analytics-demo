@@ -682,8 +682,8 @@ elif st.session_state["nav"] == "Conversation Analyzer":
     st.title("🔍 Single Conversation Analyzer")
     st.caption("Paste a transcript or click a sample to generate structured CARE quality insights.")
 
-    if "analyzer_transcript" not in st.session_state:
-        st.session_state["analyzer_transcript"] = SAMPLE_CONVERSATIONS["Sample 1: Delayed Delivery (Frustrated)"]
+    if "transcript_text_area" not in st.session_state:
+        st.session_state["transcript_text_area"] = SAMPLE_CONVERSATIONS["Sample 1: Delayed Delivery (Frustrated)"]
 
     left_panel, right_panel = st.columns([1, 1], gap="large")
 
@@ -693,21 +693,33 @@ elif st.session_state["nav"] == "Conversation Analyzer":
         st.markdown("**Load Sample Conversations:**")
         s_cols = st.columns(3)
         if s_cols[0].button("🚚 1. Delivery"):
-            st.session_state["analyzer_transcript"] = SAMPLE_CONVERSATIONS["Sample 1: Delayed Delivery (Frustrated)"]
+            st.session_state["transcript_text_area"] = SAMPLE_CONVERSATIONS["Sample 1: Delayed Delivery (Frustrated)"]
+            st.session_state["last_analysis"] = analyze_conversation(st.session_state["transcript_text_area"])
+            st.rerun()
+
         if s_cols[1].button("💰 2. APR"):
-            st.session_state["analyzer_transcript"] = SAMPLE_CONVERSATIONS["Sample 2: Financing Confusion (Confused)"]
+            st.session_state["transcript_text_area"] = SAMPLE_CONVERSATIONS["Sample 2: Financing Confusion (Confused)"]
+            st.session_state["last_analysis"] = analyze_conversation(st.session_state["transcript_text_area"])
+            st.rerun()
+
         if s_cols[2].button("🔄 3. Trade-in"):
-            st.session_state["analyzer_transcript"] = SAMPLE_CONVERSATIONS["Sample 3: Happy Trade-in Customer (Positive)"]
+            st.session_state["transcript_text_area"] = SAMPLE_CONVERSATIONS["Sample 3: Happy Trade-in Customer (Positive)"]
+            st.session_state["last_analysis"] = analyze_conversation(st.session_state["transcript_text_area"])
+            st.rerun()
             
         s_cols2 = st.columns(2)
         if s_cols2[0].button("🚗 4. Paint Scratch"):
-            st.session_state["analyzer_transcript"] = SAMPLE_CONVERSATIONS["Sample 4: Vehicle Quality Concern (Upset)"]
+            st.session_state["transcript_text_area"] = SAMPLE_CONVERSATIONS["Sample 4: Vehicle Quality Concern (Upset)"]
+            st.session_state["last_analysis"] = analyze_conversation(st.session_state["transcript_text_area"])
+            st.rerun()
+
         if s_cols2[1].button("📄 5. DMV Registration"):
-            st.session_state["analyzer_transcript"] = SAMPLE_CONVERSATIONS["Sample 5: Documentation Question (Neutral)"]
+            st.session_state["transcript_text_area"] = SAMPLE_CONVERSATIONS["Sample 5: Documentation Question (Neutral)"]
+            st.session_state["last_analysis"] = analyze_conversation(st.session_state["transcript_text_area"])
+            st.rerun()
 
         user_transcript = st.text_area(
             "Conversation Transcript",
-            value=st.session_state["analyzer_transcript"],
             height=380,
             key="transcript_text_area"
         )
@@ -717,13 +729,17 @@ elif st.session_state["nav"] == "Conversation Analyzer":
     with right_panel:
         st.markdown("#### CARE AI Analysis Results")
         
-        if analyze_btn or "last_analysis" in st.session_state:
-            if analyze_btn:
-                with st.spinner("CARE GPT-4o engine analyzing conversation quality..."):
-                    res = analyze_conversation(user_transcript)
-                    st.session_state["last_analysis"] = res
-            else:
-                res = st.session_state["last_analysis"]
+        # Auto-run analysis on load if last_analysis not set
+        if "last_analysis" not in st.session_state:
+            st.session_state["last_analysis"] = analyze_conversation(user_transcript)
+
+        if analyze_btn:
+            with st.spinner("CARE GPT-4o-mini engine analyzing conversation quality..."):
+                res = analyze_conversation(user_transcript)
+                st.session_state["last_analysis"] = res
+        
+        res = st.session_state["last_analysis"]
+
 
             # Row 1: 3 Metric Cards
             rm1, rm2, rm3 = st.columns(3)
