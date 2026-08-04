@@ -12,20 +12,20 @@ load_dotenv()
 
 # Set Streamlit Page Configuration
 st.set_page_config(
-    page_title="CARE Analytics Demo | Carvana CX Strategy",
+    page_title="CARE Analytics Engine | Carvana CX Strategy",
     page_icon="🚗",
     layout="wide",
     initial_sidebar_state="expanded"
 )
 
-# Custom High-End Styling (Carvana Brand Palette & Glassmorphism UI/UX)
+# Custom High-End Styling (Official Carvana Color System & Glassmorphism UI)
 st.markdown("""
     <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap');
     
     /* Global Reset & Typography */
     html, body, .stApp {
-        background-color: #0B0E14;
+        background-color: #071320;
         color: #F3F4F6;
         font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
     }
@@ -36,52 +36,52 @@ st.markdown("""
         letter-spacing: -0.02em !important;
     }
 
-    /* Top Glassmorphic Navbar Header */
+    /* Top Navbar Header */
     .carvana-navbar {
-        background: rgba(20, 24, 36, 0.75);
+        background: rgba(13, 37, 63, 0.75);
         backdrop-filter: blur(16px);
         -webkit-backdrop-filter: blur(16px);
-        border: 1px solid rgba(255, 255, 255, 0.08);
-        border-radius: 12px;
-        padding: 16px 28px;
+        border: 1px solid rgba(34, 139, 230, 0.25);
+        border-radius: 14px;
+        padding: 18px 28px;
         margin-bottom: 28px;
         display: flex;
         justify-content: space-between;
         align-items: center;
-        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
     }
     .brand-title-container {
         display: flex;
         align-items: center;
-        gap: 14px;
+        gap: 16px;
     }
     .brand-logo-badge {
-        background: linear-gradient(135deg, #00C896 0%, #106BC7 100%);
-        width: 42px;
-        height: 42px;
-        border-radius: 10px;
+        background: linear-gradient(135deg, #106BC7 0%, #228BE6 100%);
+        width: 44px;
+        height: 44px;
+        border-radius: 12px;
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 20px;
-        box-shadow: 0 4px 14px rgba(0, 200, 150, 0.35);
+        font-size: 22px;
+        box-shadow: 0 4px 14px rgba(34, 139, 230, 0.4);
     }
     .carvana-navbar h2 {
         color: #FFFFFF !important;
         margin: 0;
-        font-size: 1.35rem;
-        background: linear-gradient(90deg, #FFFFFF 0%, #D1D5DB 100%);
+        font-size: 1.4rem;
+        background: linear-gradient(90deg, #FFFFFF 0%, #E2E8F0 100%);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
     }
     .carvana-navbar p {
-        color: #9CA3AF !important;
+        color: #94A3B8 !important;
         margin: 2px 0 0 0;
-        font-size: 0.82rem;
+        font-size: 0.83rem;
     }
     .status-pill {
         background: rgba(0, 200, 150, 0.12);
-        border: 1px solid rgba(0, 200, 150, 0.3);
+        border: 1px solid rgba(0, 200, 150, 0.35);
         color: #00C896;
         padding: 6px 14px;
         border-radius: 20px;
@@ -99,36 +99,36 @@ st.markdown("""
         box-shadow: 0 0 8px #00C896;
     }
     
-    /* Premium Glass Cards */
+    /* Glass Cards */
     .glass-card {
-        background: rgba(20, 24, 36, 0.65);
+        background: rgba(13, 37, 63, 0.65);
         backdrop-filter: blur(12px);
         -webkit-backdrop-filter: blur(12px);
-        border: 1px solid rgba(255, 255, 255, 0.07);
+        border: 1px solid rgba(34, 139, 230, 0.2);
         border-radius: 14px;
-        padding: 22px;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+        padding: 24px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
         transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
     }
     .glass-card:hover {
-        border-color: rgba(0, 200, 150, 0.4);
+        border-color: rgba(34, 139, 230, 0.5);
         transform: translateY(-2px);
-        box-shadow: 0 14px 36px rgba(0, 200, 150, 0.1);
+        box-shadow: 0 14px 36px rgba(34, 139, 230, 0.15);
     }
     
     /* Metric Cards */
     .metric-card {
-        background: rgba(20, 24, 36, 0.8);
-        border: 1px solid rgba(255, 255, 255, 0.08);
+        background: rgba(13, 37, 63, 0.75);
+        border: 1px solid rgba(34, 139, 230, 0.2);
         border-radius: 12px;
         padding: 20px;
         text-align: center;
-        box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+        box-shadow: 0 6px 20px rgba(0,0,0,0.25);
         transition: all 0.2s ease;
     }
     .metric-card:hover {
-        border-color: #00C896;
-        box-shadow: 0 8px 24px rgba(0, 200, 150, 0.15);
+        border-color: #228BE6;
+        box-shadow: 0 8px 24px rgba(34, 139, 230, 0.2);
     }
     .metric-val {
         font-family: 'Plus Jakarta Sans', sans-serif;
@@ -138,16 +138,23 @@ st.markdown("""
         letter-spacing: -0.03em;
     }
     .metric-lbl {
-        color: #9CA3AF;
+        color: #94A3B8;
         font-size: 0.8rem;
         font-weight: 600;
         text-transform: uppercase;
         letter-spacing: 0.06em;
     }
     
-    /* Feature & Highlight Boxes */
+    /* Highlight & Feature Boxes */
+    .insight-box-blue {
+        background: rgba(34, 139, 230, 0.08);
+        border-left: 4px solid #228BE6;
+        border-radius: 0 10px 10px 0;
+        padding: 18px 22px;
+        margin: 16px 0;
+    }
     .insight-box-teal {
-        background: rgba(0, 200, 150, 0.07);
+        background: rgba(0, 200, 150, 0.08);
         border-left: 4px solid #00C896;
         border-radius: 0 10px 10px 0;
         padding: 18px 22px;
@@ -196,19 +203,19 @@ st.markdown("""
         transition: all 0.2s ease !important;
     }
     .stButton > button[kind="primary"] {
-        background: linear-gradient(135deg, #00C896 0%, #009E77 100%) !important;
+        background: linear-gradient(135deg, #106BC7 0%, #228BE6 100%) !important;
         border: none !important;
-        box-shadow: 0 4px 14px rgba(0, 200, 150, 0.3) !important;
+        box-shadow: 0 4px 14px rgba(34, 139, 230, 0.35) !important;
     }
     .stButton > button[kind="primary"]:hover {
         transform: translateY(-1px) !important;
-        box-shadow: 0 6px 18px rgba(0, 200, 150, 0.45) !important;
+        box-shadow: 0 6px 18px rgba(34, 139, 230, 0.5) !important;
     }
 
     /* Sidebar Styling */
     section[data-testid="stSidebar"] {
-        background-color: #0E121C !important;
-        border-right: 1px solid rgba(255, 255, 255, 0.06);
+        background-color: #050D17 !important;
+        border-right: 1px solid rgba(34, 139, 230, 0.15);
     }
     </style>
 """, unsafe_allow_html=True)
@@ -590,8 +597,8 @@ st.session_state["nav"] = nav_selection
 
 st.sidebar.markdown("---")
 st.sidebar.markdown("""
-<div style="font-size: 0.8rem; color: #9CA3AF;">
-    <strong style="color: #00C896;">CARE Architecture</strong><br>
+<div style="font-size: 0.8rem; color: #94A3B8;">
+    <strong style="color: #228BE6;">CARE Architecture</strong><br>
     • Model: GPT-4o (Azure AI Foundry)<br>
     • Scope: 100% Conversation Analysis<br>
     • Target: Sebastian AI & Advocate Quality
@@ -612,19 +619,19 @@ if st.session_state["nav"] == "Home":
     with col1:
         st.markdown("""
         <div class="glass-card">
-            <h3 style="color: #00C896; margin-top:0;">🎯 The Real Problem</h3>
-            <p style="line-height: 1.6; color: #D1D5DB;">
+            <h3 style="color: #228BE6; margin-top:0;">🎯 The Real Problem</h3>
+            <p style="line-height: 1.6; color: #E2E8F0;">
                 Carvana handles millions of customer conversations every month. Their AI agent <strong>Sebastian</strong> handles standard queries while human <strong>Customer Advocates</strong> handle complex ones. 
             </p>
-            <p style="line-height: 1.6; color: #D1D5DB;">
+            <p style="line-height: 1.6; color: #E2E8F0;">
                 The challenge: <strong>How do you maintain quality at scale?</strong>
             </p>
-            <ul style="color: #9CA3AF; line-height: 1.7; padding-left: 20px;">
+            <ul style="color: #94A3B8; line-height: 1.7; padding-left: 20px;">
                 <li>How do you identify conversations that went poorly?</li>
                 <li>Where is Sebastian experiencing dialogue friction?</li>
                 <li>What specific scenarios require updated training data?</li>
             </ul>
-            <p style="line-height: 1.6; color: #D1D5DB;">
+            <p style="line-height: 1.6; color: #E2E8F0;">
                 Carvana built <strong>CARE</strong> to answer these questions — analyzing <strong>100% of conversations with AI</strong>, not just a random 1% sample.
             </p>
         </div>
@@ -633,44 +640,44 @@ if st.session_state["nav"] == "Home":
     with col2:
         st.markdown("""
         <div class="glass-card">
-            <h3 style="color: #228BE6; margin-top:0;">🚀 What This App Does</h3>
-            <p style="line-height: 1.6; color: #D1D5DB;">
+            <h3 style="color: #00C896; margin-top:0;">🚀 What This App Does</h3>
+            <p style="line-height: 1.6; color: #E2E8F0;">
                 This web application simulates the analytical layer that powers Carvana's strategic decision-making:
             </p>
-            <ul style="color: #9CA3AF; line-height: 1.7; padding-left: 20px;">
+            <ul style="color: #94A3B8; line-height: 1.7; padding-left: 20px;">
                 <li><strong>Conversation Analyzer:</strong> Instant AI quality scoring, friction points, and <em>"What Sebastian Should Have Said"</em>.</li>
                 <li><strong>Batch Dashboard:</strong> Full executive sentiment tracking, category distribution, and risk threshold monitoring.</li>
                 <li><strong>Sebastian Improvement Lab:</strong> Side-by-side prompt optimization with senior CX coaching notes and training FAQ extraction.</li>
             </ul>
-            <p style="line-height: 1.6; color: #D1D5DB;">
+            <p style="line-height: 1.6; color: #E2E8F0;">
                 Every feature maps directly to real analytical problems Carvana's strategy team solves every day.
             </p>
         </div>
         """, unsafe_allow_html=True)
 
-    st.markdown("<br><hr style='border-color: rgba(255,255,255,0.08);'><br>", unsafe_allow_html=True)
-    st.markdown("<h3 style='text-align: center; color: #F3F4F6;'>Carvana Real CX Impact</h3>", unsafe_allow_html=True)
+    st.markdown("<br><hr style='border-color: rgba(34,139,230,0.15);'><br>", unsafe_allow_html=True)
+    st.markdown("<h3 style='text-align: center; color: #F8FAFC;'>Carvana Real CX Impact</h3>", unsafe_allow_html=True)
     st.markdown("<br>", unsafe_allow_html=True)
     
     mcol1, mcol2, mcol3 = st.columns(3)
     with mcol1:
         st.markdown("""
         <div class="metric-card">
-            <div class="metric-val" style="color: #00C896;">45%</div>
+            <div class="metric-val" style="color: #228BE6;">45%</div>
             <div class="metric-lbl">Reduction in Inbound Calls per Sale</div>
         </div>
         """, unsafe_allow_html=True)
     with mcol2:
         st.markdown("""
         <div class="metric-card">
-            <div class="metric-val" style="color: #228BE6;">100%</div>
+            <div class="metric-val" style="color: #00C896;">100%</div>
             <div class="metric-lbl">Visibility into Customer Conversations</div>
         </div>
         """, unsafe_allow_html=True)
     with mcol3:
         st.markdown("""
         <div class="metric-card">
-            <div class="metric-val" style="color: #00C896;">40%+</div>
+            <div class="metric-val" style="color: #FAB005;">40%+</div>
             <div class="metric-lbl">YoY Reduction in Customer Care Costs</div>
         </div>
         """, unsafe_allow_html=True)
@@ -785,7 +792,7 @@ elif st.session_state["nav"] == "Conversation Analyzer":
                 status_class = "badge-green" if status == "Resolved" else ("badge-yellow" if status == "Partially Resolved" else "badge-red")
                 
                 st.markdown(f"""
-                <div style="background: rgba(20, 24, 36, 0.7); padding: 18px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.08);">
+                <div style="background: rgba(13, 37, 63, 0.7); padding: 18px; border-radius: 12px; border: 1px solid rgba(34,139,230,0.2);">
                     <p style="margin-bottom:8px;"><strong>Category:</strong> {icon} {cat}</p>
                     <p style="margin-bottom:8px; line-height: 1.4;"><strong>Summary:</strong> {res.get("issue_summary", "N/A")}</p>
                     <p style="margin:0;"><strong>Status:</strong> <span class="badge {status_class}">{status}</span></p>
@@ -795,12 +802,12 @@ elif st.session_state["nav"] == "Conversation Analyzer":
             with c_right:
                 st.markdown("##### 🤖 Agent Performance")
                 st.markdown(f"""
-                <div style="background: rgba(20, 24, 36, 0.7); padding: 18px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.08);">
+                <div style="background: rgba(13, 37, 63, 0.7); padding: 18px; border-radius: 12px; border: 1px solid rgba(34,139,230,0.2);">
                     <p style="margin-bottom:8px; line-height: 1.4;"><strong>Evaluation:</strong> {res.get("agent_performance", "N/A")}</p>
                     <div class="insight-box-gold">
                         <strong style="color: #FAB005;">⚠️ Key Friction Point:</strong><br>{res.get("key_friction_point", "N/A")}
                     </div>
-                    <p style="font-size: 0.83rem; color: #9CA3AF; margin: 4px 0 0 0;"><strong>Escalation Reason:</strong> {res.get("escalation_reason", "N/A")}</p>
+                    <p style="font-size: 0.83rem; color: #94A3B8; margin: 4px 0 0 0;"><strong>Escalation Reason:</strong> {res.get("escalation_reason", "N/A")}</p>
                 </div>
                 """, unsafe_allow_html=True)
 
@@ -808,9 +815,9 @@ elif st.session_state["nav"] == "Conversation Analyzer":
 
             # Row 3: What Sebastian Should Have Said
             st.markdown("""
-            <div class="insight-box-teal">
-                <h5 style="color: #00C896; margin-top:0;">💡 What Sebastian Should Have Said</h5>
-                <p style="font-size: 1.05rem; line-height: 1.5; margin-bottom: 0; color: #F3F4F6;">{}</p>
+            <div class="insight-box-blue">
+                <h5 style="color: #228BE6; margin-top:0;">💡 What Sebastian Should Have Said</h5>
+                <p style="font-size: 1.05rem; line-height: 1.5; margin-bottom: 0; color: #F8FAFC;">{}</p>
             </div>
             """.format(res.get("suggested_better_response", "N/A")), unsafe_allow_html=True)
 
@@ -888,8 +895,8 @@ elif st.session_state["nav"] == "Batch Dashboard":
         with st.spinner("Generating GPT-4o executive batch summary..."):
             exec_summary = generate_batch_executive_summary(batch_df)
         st.markdown(f"""
-        <div class="insight-box-teal">
-            <p style="font-size: 1.05rem; line-height: 1.6; margin:0; color: #F3F4F6;">{exec_summary}</p>
+        <div class="insight-box-blue">
+            <p style="font-size: 1.05rem; line-height: 1.6; margin:0; color: #F8FAFC;">{exec_summary}</p>
         </div>
         """, unsafe_allow_html=True)
 
@@ -907,14 +914,14 @@ elif st.session_state["nav"] == "Batch Dashboard":
         with m1:
             st.markdown(f"""
             <div class="metric-card">
-                <div class="metric-val" style="color: #00C896;">{avg_sent:.1f}</div>
+                <div class="metric-val" style="color: #228BE6;">{avg_sent:.1f}</div>
                 <div class="metric-lbl">Avg Sentiment</div>
             </div>
             """, unsafe_allow_html=True)
         with m2:
             st.markdown(f"""
             <div class="metric-card">
-                <div class="metric-val" style="color: #228BE6;">{pct_resolved:.0f}%</div>
+                <div class="metric-val" style="color: #00C896;">{pct_resolved:.0f}%</div>
                 <div class="metric-lbl">% Resolved</div>
             </div>
             """, unsafe_allow_html=True)
@@ -935,7 +942,7 @@ elif st.session_state["nav"] == "Batch Dashboard":
         with m5:
             st.markdown(f"""
             <div class="metric-card">
-                <div class="metric-val" style="color: #00C896;">{avg_qual:.1f}</div>
+                <div class="metric-val" style="color: #228BE6;">{avg_qual:.1f}</div>
                 <div class="metric-lbl">Avg Quality</div>
             </div>
             """, unsafe_allow_html=True)
@@ -953,12 +960,12 @@ elif st.session_state["nav"] == "Batch Dashboard":
                 cat_counts,
                 x="Category",
                 y="Count",
-                color_discrete_sequence=["#00C896"],
+                color_discrete_sequence=["#228BE6"],
                 template="plotly_dark"
             )
             fig_bar.update_layout(
-                plot_bgcolor="#141824",
-                paper_bgcolor="#141824",
+                plot_bgcolor="#0D253F",
+                paper_bgcolor="#0D253F",
                 margin=dict(l=20, r=20, t=30, b=20),
                 height=320
             )
@@ -979,8 +986,8 @@ elif st.session_state["nav"] == "Batch Dashboard":
                 hole=0.4
             )
             fig_pie.update_layout(
-                plot_bgcolor="#141824",
-                paper_bgcolor="#141824",
+                plot_bgcolor="#0D253F",
+                paper_bgcolor="#0D253F",
                 margin=dict(l=20, r=20, t=30, b=20),
                 height=320
             )
@@ -996,7 +1003,7 @@ elif st.session_state["nav"] == "Batch Dashboard":
             labels={"conversation_num": "Conversation #", "sentiment_score": "Sentiment Score (1-10)"},
             template="plotly_dark"
         )
-        fig_line.update_traces(line_color="#00C896", marker=dict(size=8, color="#00C896"))
+        fig_line.update_traces(line_color="#228BE6", marker=dict(size=8, color="#228BE6"))
         fig_line.add_hline(
             y=5,
             line_dash="dot",
@@ -1006,15 +1013,15 @@ elif st.session_state["nav"] == "Batch Dashboard":
             annotation_font_color="#FF4B4B"
         )
         fig_line.update_layout(
-            plot_bgcolor="#141824",
-            paper_bgcolor="#141824",
+            plot_bgcolor="#0D253F",
+            paper_bgcolor="#0D253F",
             margin=dict(l=20, r=20, t=30, b=20),
             height=300,
             yaxis=dict(range=[0, 10.5])
         )
         st.plotly_chart(fig_line, use_container_width=True)
 
-        # Filterable Data Table (Using Styler.map to avoid deprecation warnings)
+        # Filterable Data Table
         st.markdown("##### Detailed Conversation Evaluation Table")
         
         display_df = batch_df[[
@@ -1090,7 +1097,7 @@ elif st.session_state["nav"] == "Sebastian Improvement Lab":
                 st.markdown(f"""
                 <div class="response-card-red">
                     <h5 style="color: #FF4B4B; margin-top: 0;">Current Response</h5>
-                    <p style="font-size: 1rem; line-height: 1.5; color: #F3F4F6;">{seb_resp}</p>
+                    <p style="font-size: 1rem; line-height: 1.5; color: #F8FAFC;">{seb_resp}</p>
                 </div>
                 """, unsafe_allow_html=True)
                 
@@ -1098,7 +1105,7 @@ elif st.session_state["nav"] == "Sebastian Improvement Lab":
                 st.markdown(f"""
                 <div class="response-card-teal">
                     <h5 style="color: #00C896; margin-top: 0;">✨ Improved Response</h5>
-                    <p style="font-size: 1rem; line-height: 1.5; color: #F3F4F6;">{imp_res.get("improved_response")}</p>
+                    <p style="font-size: 1rem; line-height: 1.5; color: #F8FAFC;">{imp_res.get("improved_response")}</p>
                 </div>
                 """, unsafe_allow_html=True)
 
