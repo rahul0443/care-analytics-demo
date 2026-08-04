@@ -895,9 +895,22 @@ elif st.session_state["nav"] == "Batch Dashboard":
     if uploaded_file is not None:
         try:
             df_in = pd.read_csv(uploaded_file)
-            if "transcript" not in df_in.columns:
-                st.error("Uploaded CSV must contain a column named 'transcript'.")
+            target_col = None
+            for col in df_in.columns:
+                if col.lower().strip() in ["transcript", "transcripts", "conversation", "text", "message", "dialogue", "content"]:
+                    target_col = col
+                    break
+            
+            if target_col is None:
+                for col in df_in.columns:
+                    if df_in[col].dtype == 'object' and df_in[col].astype(str).str.len().mean() > 20:
+                        target_col = col
+                        break
+
+            if target_col is None:
+                st.error("Uploaded CSV must contain a text/transcript column (e.g. 'transcript', 'conversation', or 'text').")
             else:
+                st.success(f"✓ Detected transcript column: **'{target_col}'** ({len(df_in)} conversations loaded)")
                 if st.button("⚡ Process Batch Conversations", type="primary"):
                     progress_bar = st.progress(0)
                     status_text = st.empty()
@@ -906,8 +919,9 @@ elif st.session_state["nav"] == "Batch Dashboard":
                     total_rows = len(df_in)
                     for idx, row in df_in.iterrows():
                         status_text.text(f"CARE is processing conversation {idx+1} of {total_rows}...")
-                        res = analyze_conversation(row["transcript"])
+                        res = analyze_conversation(str(row[target_col]))
                         res["conversation_num"] = idx + 1
+                        res["transcript"] = str(row[target_col])
                         results.append(res)
                         progress_bar.progress((idx + 1) / total_rows)
                         time.sleep(0.05)
@@ -924,6 +938,7 @@ elif st.session_state["nav"] == "Batch Dashboard":
                 for idx, row in sample_df.iterrows():
                     res = generate_mock_analysis(row["transcript"])
                     res["conversation_num"] = idx + 1
+                    res["transcript"] = row["transcript"]
                     results.append(res)
                 st.session_state["batch_results"] = pd.DataFrame(results)
 
