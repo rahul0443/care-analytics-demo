@@ -1,119 +1,85 @@
-# CARE Analytics Demo — Carvana Customer Care Strategy Analytics
+# CARE Analytics Engine
 
-A professional, enterprise-grade Streamlit web application simulating Carvana's **CARE (Conversation Analysis Review Engine)** platform and AI Customer Support Agent **Sebastian**.
+> **AI-Powered Customer Support Quality Evaluation & Conversation Intelligence Platform**
 
-Built by **Rahul Muddhapuram** after interviewing with **Trevor Jensen**, Senior Manager of Customer Care Strategy Analytics at Carvana.
+CARE (Conversation Analysis & Review Engine) is an end-to-end analytical web application built to evaluate customer service interactions, extract structured sentiment insights, track resolution friction, and continuously improve AI agent dialogue models.
 
----
-
-## 📖 The Story Behind This Project
-
-During my interview with Trevor Jensen, he shared details about Carvana's AI-powered customer experience infrastructure — specifically their AI agent **Sebastian** and their internal **Conversation Analysis Review Engine (CARE)** built on Azure AI Foundry.
-
-I was so energized by our conversation that I went home, deeply researched Carvana's platform and public case studies, and built this application to demonstrate my understanding of the problem space and my ability to immediately contribute to the team.
-
-This is not a generic demo. Every feature is designed around the specific analytical problems Carvana's Customer Care Strategy Analytics team solves every day:
-- **Sebastian**: AI Agent handling customer support conversations across financing, delivery, vehicle quality, trade-ins, and documentation. Reduced inbound calls per sale by 45% and reduced YoY customer care costs by 40%+.
-- **CARE**: AI Engine evaluating 100% of customer interactions (not just a 1% sample) to surface friction, monitor agent quality, and continuously improve Sebastian and human Advocates.
+Inspired by enterprise AI customer experience infrastructure, CARE processes customer support transcripts using **OpenAI's GPT-4o** to score sentiment, identify root causes of friction, propose optimal agent responses, and generate structured training datasets.
 
 ---
 
-## 🛠️ Application Structure & Features
+## ✨ Features & Modules
 
-The app is organized into four main sections:
+### 🔍 1. Single Conversation Analyzer
+- **Automated Quality Scoring**: Instantly evaluates transcripts to output Sentiment Score (1–10), Resolution Quality (1–10), and Escalation Risk (Low / Medium / High).
+- **Issue Classification & Summary**: Automatically categorizes customer intent (Delivery, Financing, Vehicle Quality, Trade-in, Documentation) with concise issue summaries.
+- **Agent Performance & Friction Identification**: Pinpoints exact dialogue friction points and highlights key breakdown areas.
+- **"What the AI Agent Should Have Said"**: Generates specific, empathetic, and policy-compliant dialogue recommendations to coach AI models and human Customer Advocates.
+- **GPT-4o Deep Dive Narrative**: Generates narrative diagnostic summaries covering customer behavior trends and suggested model fine-tuning targets.
 
-### 1. 🏠 Home Page
-- **The Problem & Solution**: Explains Carvana's scale, the challenge of maintaining quality across millions of interactions, and how CARE solves it.
-- **Carvana CX Impact Metrics**: Displays real results (45% call reduction, 100% conversation visibility, 40%+ YoY cost reduction).
-- **Direct Navigation**: One-click launcher to enter the analytical suite.
+### 📊 2. Batch Analytics Dashboard
+- **Batch CSV Processing**: Processes bulk conversation datasets with rate-limit throttling and real-time progress monitoring.
+- **Executive Strategy Summary**: Generates plain English executive digests covering batch health, top friction categories, and operational recommendations.
+- **Aggregate KPI Metrics**: Displays average sentiment, resolution rates, percentage of high-escalation risk conversations, and average quality scores.
+- **Interactive Visualizations**: Plotly bar charts (category distribution), pie charts (resolution breakdown), and line charts with threshold markers (conversations with sentiment < 5).
+- **Export Capabilities**: Allows single-click CSV exports of enriched evaluation data.
 
-### 2. 🔍 Single Conversation Analyzer
-- **Transcript Input**: Interactive text area with 5 pre-built realistic Carvana sample conversations (Delayed Delivery, Financing APR, Happy Trade-in, Vehicle Quality scratch, State Registration tag).
-- **Row 1 Metric Cards**: Sentiment Score (1-10 color-coded), Resolution Quality (1-10 color-coded), Escalation Risk (Low/Medium/High).
-- **Row 2 Insight Cards**: Issue Category with icon, Issue Summary, Resolution Status badge, Agent Evaluation, and Key Friction Point (highlighted yellow).
-- **Row 3 Highlight Box**: "💡 What Sebastian Should Have Said" (suggested optimal agent response).
-- **Row 4 Deep Dive**: Expandable GPT-4o narrative analysis outlining customer behavior patterns and training implications.
-
-### 3. 📊 Batch Dashboard
-- **Batch CSV Upload**: Upload any CSV containing customer transcripts or click "Download Sample CSV" (pre-loaded with 10 real-world conversations).
-- **Progress Tracking**: Real-time progress bar with rate-limit throttling.
-- **GPT-4o Executive Summary Box**: High-level plain English summary of batch health, friction clusters, and strategic recommendations.
-- **5 Summary KPI Cards**: Average Sentiment, % Resolved, % High Escalation Risk, Top Issue Category, Average Resolution Quality.
-- **Interactive Visualizations**:
-  - Plotly Bar Chart: Issue Category Distribution in Carvana Green (`#00A67C`).
-  - Plotly Pie Chart: Resolution Status breakdown.
-  - Plotly Line Chart: Sentiment Score across conversations with a red dotted threshold line at score 5.
-- **Data Table & CSV Export**: Filterable table with color-coded risk flags and full dataset CSV export.
-
-### 4. 🧪 Sebastian Improvement Lab
-- **Tab A: Response Improver**: Side-by-side comparison of Sebastian's original response vs GPT-4o's improved response across purchase stages (Browsing, Financing, Post-Purchase, Delivery, Trade-in, Documentation), accompanied by 3 senior CX coaching notes.
-- **Tab B: Training FAQ Generator**: Multi-transcript pattern analysis generating structured FAQ tables, priority rankings (High/Medium/Low), strategic recommendations, and exportable CSV training data.
+### 🧪 3. AI Agent Improvement Lab
+- **Response Improver**: Side-by-side prompt coaching comparing current AI responses against improved GPT-4o versions across purchase stages, complete with actionable CX coaching notes.
+- **Training FAQ Generator**: Extracts top FAQ clusters from multi-transcript inputs and formats structured CSV training datasets (Question, Ideal Answer, Category, Priority).
 
 ---
 
 ## 🧰 Tech Stack
 
-- **Frontend / Framework**: Streamlit (`v1.35.0`)
-- **AI / LLM Layer**: OpenAI API (`gpt-4o` model via `openai v1.30.0`)
-- **Visualizations**: Plotly (`v5.22.0`)
-- **Data Processing**: Pandas (`v2.2.2`)
-- **Language**: Python 3.11
-- **Deployment**: Streamlit Community Cloud
+- **Frontend / UI**: [Streamlit](https://streamlit.io/) (Custom Glassmorphism Theme)
+- **LLM Layer**: [OpenAI API](https://platform.openai.com/) (`gpt-4o`)
+- **Data & Visualizations**: Pandas, Plotly Express
+- **Runtime**: Python 3.11+
 
 ---
 
-## 💻 Local Setup Instructions
+## ⚙️ Quickstart & Local Setup
 
-1. **Clone or navigate to the repository:**
-   ```bash
-   cd "Trevor Project"
-   ```
+### 1. Clone the Repository
+```bash
+git clone https://github.com/rahul0443/care-analytics-demo.git
+cd care-analytics-demo
+```
 
-2. **Create and activate a virtual environment (optional but recommended):**
-   ```bash
-   python3 -m venv venv
-   source venv/bin/activate
-   ```
+### 2. Install Dependencies
+```bash
+pip install -r requirements.txt
+```
 
-3. **Install dependencies:**
-   ```bash
-   pip install -r requirements.txt
-   ```
+### 3. Set Up Credentials
+Create a `.env` file in the project root:
+```env
+OPENAI_API_KEY=your_openai_api_key_here
+```
+Or set up `.streamlit/secrets.toml`:
+```toml
+OPENAI_API_KEY = "your_openai_api_key_here"
+```
 
-4. **Configure your OpenAI API Key:**
-   - Option A: Create a `.env` file in the project root:
-     ```env
-     OPENAI_API_KEY=your_openai_api_key_here
-     ```
-   - Option B: Create a `.streamlit/secrets.toml` file:
-     ```toml
-     OPENAI_API_KEY = "your_openai_api_key_here"
-     ```
-   *(Note: If no API key is provided, the application automatically uses built-in smart mock CARE analytics so all features remain fully functional for demonstration purposes).*
-
-5. **Run the Streamlit application:**
-   ```bash
-   streamlit run app.py
-   ```
+### 4. Launch the Application
+```bash
+streamlit run app.py
+```
+The app will open automatically at `http://localhost:8501`.
 
 ---
 
-## ☁️ Deployment on Streamlit Community Cloud
+## ☁️ Deployment
 
-1. Push this repository to GitHub.
-2. Log into [Streamlit Community Cloud](https://share.streamlit.io/).
-3. Click **New app** and select your repository, branch (`main`), and main file path (`app.py`).
-4. In **Advanced Settings**, add your `OPENAI_API_KEY` under Secrets:
-   ```toml
-   OPENAI_API_KEY = "sk-..."
-   ```
-5. Click **Deploy!**
+This project is pre-configured for 1-click deployment on **Streamlit Community Cloud**:
+1. Connect your repository at [share.streamlit.io](https://share.streamlit.io/).
+2. Set the main file path to `app.py`.
+3. Add `OPENAI_API_KEY` under **Advanced Settings -> Secrets**.
+4. Click **Deploy!**
 
 ---
 
-## 👤 About the Builder
+## 📝 License
 
-**Rahul Muddhapuram**
-- Candidate for Customer Care Strategy Analytics at Carvana.
-- Passionate about leveraging AI, LLM orchestration, and strategy analytics to build seamless, customer-first experiences.
-- Contact: Rahul Muddhapuram
+Distributed under the MIT License.
